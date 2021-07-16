@@ -349,7 +349,8 @@ impl ControlBlock {
     /// **Note**: After calling this do remember to call [check](#method.check), as
     /// an input packet may invalidate previous time estimations of the next update.
     #[instrument(skip(self, buf), fields(len = buf.len()))]
-    pub fn send(&mut self, mut buf: &[u8]) -> Result<()> {
+    pub fn send(&mut self, mut buf: &[u8]) -> Result<usize> {
+        let buf_size = buf.len();
         let mss = self.config.mss();
         if self.config.stream {
             if let Some(old) = self.send_queue.back_mut() {
@@ -362,7 +363,8 @@ impl ControlBlock {
                     buf = back;
                 }
                 if buf.is_empty() {
-                    return Ok(());
+                    log::warn!("send buf.is_empty()");
+                    return Ok(0);
                 }
             }
         }
@@ -391,7 +393,7 @@ impl ControlBlock {
         }
         self.sync_now();
         self.flush_push();
-        Ok(())
+        Ok(buf_size)
     }
 
     /// Updates the RTT filter and recalculates RTO according to RFC 6298.
