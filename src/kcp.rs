@@ -35,7 +35,6 @@ use crate::kcp::pcc::{MonitorInterval, PCC};
 use bytes::{Buf, BufMut};
 use derivative::Derivative;
 use num_enum::{IntoPrimitive, TryFromPrimitive};
-use rand::{thread_rng, Rng};
 use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 use std::cmp::{max, min};
@@ -91,7 +90,8 @@ enum Command {
 #[derivative(Default)]
 #[serde(default)]
 pub struct Config {
-    #[derivative(Default(value = "536"))]
+    // 536
+    #[derivative(Default(value = "1378"))]
     pub mtu: u32,
     #[derivative(Default(value = "200"))]
     pub rto_default: u32,
@@ -109,7 +109,7 @@ pub struct Config {
     pub send_wnd: u16,
     #[derivative(Default(value = "1024"))]
     pub recv_wnd: u16,
-    #[derivative(Default(value = "40"))]
+    #[derivative(Default(value = "1"))]
     pub interval: u32,
     /// After failure of this many retransmission attempts, the link will be considered to be dead.
     #[derivative(Default(value = "20"))]
