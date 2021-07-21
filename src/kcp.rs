@@ -36,7 +36,7 @@ use bytes::{Buf, BufMut};
 use derivative::Derivative;
 use num_enum::{IntoPrimitive, TryFromPrimitive};
 use rand::{thread_rng, Rng};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 use std::cmp::{max, min};
 use std::collections::VecDeque;
@@ -87,7 +87,7 @@ enum Command {
 /// KCP configuration.
 ///
 /// All time-related items are in milliseconds.
-#[derive(Clone, Debug, Deserialize, Derivative)]
+#[derive(Clone, Debug, Deserialize,Serialize, Derivative)]
 #[derivative(Default)]
 #[serde(default)]
 pub struct Config {

@@ -22,7 +22,7 @@ use anyhow::{Context, Result};
 use chacha20poly1305::Key;
 use once_cell::sync::OnceCell;
 use serde::de::{Error, Visitor};
-use serde::{Deserialize, Deserializer};
+use serde::{Deserialize, Deserializer, Serialize};
 use std::fmt;
 use std::path::Path;
 
