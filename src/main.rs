@@ -30,7 +30,6 @@ use crate::config::config;
 use anyhow::Result;
 use std::env;
 
-use crate::relay::relay_kcp;
 use tracing::info;
 use tracing::Level;
 use tracing_subscriber::util::SubscriberInitExt;
