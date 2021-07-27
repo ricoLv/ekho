@@ -44,7 +44,7 @@ use std::rc::Rc;
 use std::time::Instant;
 use thiserror::Error;
 use timer::Timer;
-use tracing::instrument;
+// use tracing::instrument;
 use window::Window;
 
 /// KCP error type.
@@ -109,7 +109,7 @@ pub struct Config {
     pub send_wnd: u16,
     #[derivative(Default(value = "1024"))]
     pub recv_wnd: u16,
-    #[derivative(Default(value = "1"))]
+    #[derivative(Default(value = "5"))]
     pub interval: u32,
     /// After failure of this many retransmission attempts, the link will be considered to be dead.
     #[derivative(Default(value = "20"))]
@@ -325,7 +325,7 @@ impl ControlBlock {
     /// **Note**: if [stream mode](#structfield.stream) is off (by default), then one receive
     /// corresponds to one [send](#method.send) on the other side. Otherwise, this correlation
     /// may not hold as in stream mode KCP will try to merge payloads to reduce overheads.
-    #[instrument(skip(self))]
+    // #[instrument(skip(self))]
     pub fn recv(&mut self) -> Result<Vec<u8>> {
         let size = self.peek_size()?;
         let mut ret = Vec::with_capacity(size);
@@ -348,7 +348,7 @@ impl ControlBlock {
     ///
     /// **Note**: After calling this do remember to call [check](#method.check), as
     /// an input packet may invalidate previous time estimations of the next update.
-    #[instrument(skip(self, buf), fields(len = buf.len()))]
+    // #[instrument(skip(self, buf), fields(len = buf.len()))]
     pub fn send(&mut self, mut buf: &[u8]) -> Result<usize> {
         let buf_size = buf.len();
         let mss = self.config.mss();
@@ -492,7 +492,7 @@ impl ControlBlock {
     ///
     /// **Note**: After calling this do remember to call [check](#method.check), as
     /// an input packet may invalidate previous time estimations of the next update.
-    #[instrument(skip(self, data), fields(len = data.len()))]
+    // #[instrument(skip(self, data), fields(len = data.len()))]
     pub fn input(&mut self, mut data: &[u8]) -> Result<usize> {
         self.sync_now();
         let prev_len = data.len();
@@ -720,7 +720,7 @@ impl ControlBlock {
     /// Flushes packets from the [send queue](#structfield.send_queue) to the
     /// [send buffer](#structfield.send_buf), and (re)transmits the packets in the send buffer
     /// if necessary.
-    #[instrument(skip(self))]
+    // #[instrument(skip(self))]
     pub fn flush(&mut self) {
         self.sync_now();
         self.flush_probe();
