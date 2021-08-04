@@ -91,7 +91,7 @@ enum Command {
 #[serde(default)]
 pub struct Config {
     // 536
-    #[derivative(Default(value = "1378"))]
+    #[derivative(Default(value = "1376"))]
     pub mtu: u32,
     #[derivative(Default(value = "200"))]
     pub rto_default: u32,
