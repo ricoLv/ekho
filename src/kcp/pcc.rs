@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 use std::rc::Rc;
 use tinyvec::{array_vec, ArrayVec};
-use tracing::debug;
+use log::debug;
 
 #[derive(Clone, Debug, Deserialize, Serialize, Derivative)]
 #[derivative(Default)]

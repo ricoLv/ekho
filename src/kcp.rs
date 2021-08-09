@@ -31,7 +31,7 @@ mod pcc;
 mod timer;
 mod window;
 
-use crate::kcp::pcc::{MonitorInterval, PCC};
+use pcc::{MonitorInterval, PCC};
 use bytes::{Buf, BufMut};
 use derivative::Derivative;
 use num_enum::{IntoPrimitive, TryFromPrimitive};
