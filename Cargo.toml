@@ -7,12 +7,12 @@ edition = "2018"
 [dependencies]
 serde = { version = "1", features = ["derive"] }
 log = "0.4"
-toml = "0.5"
+# toml = "0.5"
 bytes = "1"
 rand = "0.8"
 num_enum = "0.5"
 tinyvec = "1"
-anyhow = "1"
+# anyhow = "1"
 thiserror = "1"
 derivative = "2"
 
