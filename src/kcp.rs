@@ -31,10 +31,10 @@ mod pcc;
 mod timer;
 mod window;
 
-use pcc::{MonitorInterval, PCC};
 use bytes::{Buf, BufMut};
 use derivative::Derivative;
 use num_enum::{IntoPrimitive, TryFromPrimitive};
+use pcc::{MonitorInterval, PCC};
 use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 use std::cmp::{max, min};
@@ -86,7 +86,7 @@ enum Command {
 /// KCP configuration.
 ///
 /// All time-related items are in milliseconds.
-#[derive(Clone, Debug, Deserialize,Serialize, Derivative)]
+#[derive(Clone, Debug, Deserialize, Serialize, Derivative)]
 #[derivative(Default)]
 #[serde(default)]
 pub struct Config {

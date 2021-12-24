@@ -1,12 +1,12 @@
 use super::{Segment, OVERHEAD};
 use derivative::Derivative;
+use log::debug;
 use rand::seq::SliceRandom;
 use rand::{thread_rng, Rng};
 use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 use std::rc::Rc;
 use tinyvec::{array_vec, ArrayVec};
-use log::debug;
 
 #[derive(Clone, Debug, Deserialize, Serialize, Derivative)]
 #[derivative(Default)]
@@ -165,12 +165,17 @@ impl PCC {
             let ts_first_sent = mi.ts_first_sent.unwrap_or(mi.ts_start);
             let ts_last_sent = mi.ts_last_sent.unwrap_or(mi.ts_start + mi.min_duration);
             let tput = mi.acked as f64 / (ts_last_sent - ts_first_sent) as f64;
-            debug!("tput: {:.3}kBps {}-{}/{}", tput, ts_first_sent, ts_last_sent, mi.acked);
+            debug!(
+                "tput: {:.3}kBps {}-{}/{}",
+                tput, ts_first_sent, ts_last_sent, mi.acked
+            );
             let loss_penalty =
                 1.0 / (1.0 + (-self.config.loss_coeff * (loss - self.config.loss_tol).exp()));
             let util = tput * (1.0 - loss_penalty);
             match &mut self.state {
-                State::Starting { optimal: max_util, .. } => match max_util {
+                State::Starting {
+                    optimal: max_util, ..
+                } => match max_util {
                     None => {
                         *max_util = Some(UtilitySample {
                             util,
@@ -233,7 +238,9 @@ impl PCC {
                         self.mi_realign = true;
                     }
                 }
-                State::RateAdjusting { optimal: max_util, .. } => {
+                State::RateAdjusting {
+                    optimal: max_util, ..
+                } => {
                     if util < max_util.util {
                         self.state = State::decision_making(max_util.rate, self.config.eps_min);
                     } else {
