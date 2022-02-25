@@ -90,8 +90,7 @@ enum Command {
 #[derivative(Default)]
 #[serde(default)]
 pub struct Config {
-    // 536
-    #[derivative(Default(value = "1376"))]
+    #[derivative(Default(value = "536"))]
     pub mtu: u32,
     #[derivative(Default(value = "200"))]
     pub rto_default: u32,
@@ -109,7 +108,7 @@ pub struct Config {
     pub send_wnd: u16,
     #[derivative(Default(value = "1024"))]
     pub recv_wnd: u16,
-    #[derivative(Default(value = "5"))]
+    #[derivative(Default(value = "10"))]
     pub interval: u32,
     /// After failure of this many retransmission attempts, the link will be considered to be dead.
     #[derivative(Default(value = "20"))]
@@ -424,7 +423,7 @@ impl ControlBlock {
         let rtt = max(self.now - seg.ts_last_send, 1);
         self.update_rtt_filters(rtt);
         if let Some(pcc) = &mut self.pcc {
-            pcc.on_ack(&seg);
+            pcc.on_ack(seg);
             pcc.update(self.now, self.srtt);
         }
     }
